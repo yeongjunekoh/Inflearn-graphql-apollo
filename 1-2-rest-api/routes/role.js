@@ -16,7 +16,7 @@ api.get('/:id', (req, res) => {
   res.send(
     database.roles.filter((data) => {
       return data.id.toString() === req.params.id.toString()
-    })
+    })[0]
   )
 })
 
