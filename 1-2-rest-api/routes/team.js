@@ -6,7 +6,7 @@ api.get('/', (req, res) => {
   let result = database.teams;
   Object.keys(req.query).forEach((key) => {
     result = result.filter((data) => {
-      return data[key].toString() === req.query[key].toString()
+      return data[key] && data[key].toString() === req.query[key].toString()
     })
   })
   res.send(result)
@@ -15,18 +15,18 @@ api.get('/', (req, res) => {
 api.get('/:id', (req, res) => {
   res.send(
     database.teams.filter((data) => {
-      return data.id.toString() === req.params.id.toString()
+      return data.id && data.id.toString() === req.params.id.toString()
     })[0]
   )
 })
 
 api.get('/:id/people', (req, res) => {
   let result = database.people.filter((data) => {
-    return data.team.toString() === req.params.id.toString()
+    return data.team && data.team.toString() === req.params.id.toString()
   })
   Object.keys(req.query).forEach((key) => {
     result = result.filter((data) => {
-      return data[key].toString() === req.query[key].toString()
+      return data[key] && data[key].toString() === req.query[key].toString()
     })
   })
   res.send(
@@ -45,10 +45,10 @@ api.post('/', (req, res) => {
   res.send(data)
 })
 
-api.put('/', (req, res) => {
+api.put('/:id', (req, res) => {
   let result = null
   database.teams.filter((data) => {
-    return data.id.toString() === req.body.id.toString()
+    return data.id && data.id.toString() === req.params.id.toString()
   }).map((data) => {
     Object.keys(data).forEach((key) => {
       delete data[key]
@@ -61,10 +61,10 @@ api.put('/', (req, res) => {
 
 api.delete('/:id', (req, res) => {
   const result = database.teams.filter((data) => {
-    return data.id.toString() === req.params.id.toString()
+    return data.id && data.id.toString() === req.params.id.toString()
   })
   database.teams = database.teams.filter((data) => {
-    return data.id.toString() !== req.params.id.toString()
+    return !data.id || data.id.toString() !== req.params.id.toString()
   })
   res.send(result)
 })
