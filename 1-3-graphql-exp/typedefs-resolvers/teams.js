@@ -20,6 +20,14 @@ const resolvers = {
             return database.teams.map((team) => {
                 team.members = database.people.filter((person) => {
                     return person.team == team.id
+                }).map((member) => {
+                    member.equipments = database.equipments.filter((equipment) => {
+                        return member.role === equipment.used_by
+                    })
+                    member.softwares = database.softwares.filter((software) => {
+                        return member.role === software.used_by
+                    })
+                    return member
                 })
                 return team
             })
