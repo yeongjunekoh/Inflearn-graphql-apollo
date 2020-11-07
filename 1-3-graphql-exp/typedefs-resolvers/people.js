@@ -1,24 +1,25 @@
 const { gql } = require('apollo-server')
-const database = require('../database.js')
+const dbWorks = require('../dbWorks.js')
 
 const typeDefs = gql`
     type People {
         id: ID!
-        first_name: String
-        last_name: String
-        sex: String
-        blood_type: BloodType
-        serve_years: Int
+        first_name: String!
+        last_name: String!
+        sex: String!
+        blood_type: BloodType!
+        serve_years: Int!
         role: Role!
         team: ID!
-        from: String,
+        from: String!
         tools: [Tool]
         givens: [Given]
     }
 `
 const resolvers = {
     Query: {
-        people: () => database.people
+        people: (parent, args) => dbWorks.getPeople(args),
+        person: (parent, args) => dbWorks.getPeople(args)[0]
     }
 }
 

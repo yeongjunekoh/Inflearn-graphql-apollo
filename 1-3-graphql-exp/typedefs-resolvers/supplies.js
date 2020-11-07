@@ -1,5 +1,5 @@
 const { gql } = require('apollo-server')
-const database = require('../database.js')
+const dbWorks = require('../dbWorks.js')
 
 const typeDefs = gql`
     type Supply {
@@ -9,7 +9,8 @@ const typeDefs = gql`
 `
 const resolvers = {
     Query: {
-        supplies: () => database.supplies
+        supplies: (parent, args) => dbWorks.getSupplies(args),
+        supply: (parent, args) => dbWorks.getSupplies(args)[0]
     }
 }
 

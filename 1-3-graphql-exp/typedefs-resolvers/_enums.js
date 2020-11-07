@@ -13,6 +13,11 @@ const typeDefs = gql`
         designer
         planner
     }
+
+    enum NewOrUsed {
+        new
+        used
+    }
 `
 
 module.exports = typeDefs

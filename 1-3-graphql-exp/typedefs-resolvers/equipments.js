@@ -1,17 +1,18 @@
 const { gql } = require('apollo-server')
-const database = require('../database.js')
+const dbWorks = require('../dbWorks')
 
 const typeDefs = gql`
     type Equipment implements Tool {
         id: ID!
         used_by: Role! 
         count: Int
-        new_or_used: String
+        new_or_used: NewOrUsed!
     }
 `
 const resolvers = {
     Query: {
-        equipments: () => database.equipments
+        equipments: (parent, args) => dbWorks.getEquipments(args),
+        equipment: (parent, args) => dbWorks.getEquipments(args)[0]
     }
 }
 

@@ -1,16 +1,16 @@
 const { gql } = require('apollo-server')
-const database = require('../database.js')
+const dbWorks = require('../dbWorks.js')
 
 const typeDefs = gql`
     type Role {
-        id: ID!,
-        job: String,
+        id: ID!
+        job: String!
         requirement: String
     }
 `
 const resolvers = {
     Query: {
-        roles: () => database.roles
+        roles: (parent, args) => dbWorks.getRoles(args)
     }
 }
 
