@@ -1,5 +1,6 @@
 const { gql } = require('apollo-server')
 const database = require('../database.js')
+const supplies = require('./supplies.js')
 
 const typeDefs = gql`
     type Team {
@@ -21,12 +22,19 @@ const resolvers = {
                 team.members = database.people.filter((person) => {
                     return person.team == team.id
                 }).map((member) => {
-                    member.equipments = database.equipments.filter((equipment) => {
-                        return member.role === equipment.used_by
+                    member.tools = [
+                        ...database.equipments, ...database.softwares
+                    ].filter((tool) => {
+                        return member.role === tool.used_by
                     })
-                    member.softwares = database.softwares.filter((software) => {
-                        return member.role === software.used_by
-                    })
+                    member.givens = [
+                        ...database.equipments.filter((equipment) => {
+                            return member.role === equipment.used_by
+                        }),
+                        ...database.supplies.filter((supply) => {
+                            return member.team === supply.team
+                        })
+                    ]
                     return member
                 })
                 return team

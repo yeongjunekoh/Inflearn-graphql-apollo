@@ -6,14 +6,14 @@ const typeDefs = gql`
         id: ID!
         first_name: String
         last_name: String
-        sex: Sex
+        sex: String
         blood_type: BloodType
         serve_years: Int
-        role: Role
-        team: Int
+        role: Role!
+        team: ID!
         from: String,
-        equipments: [Equipment],
-        softwares: [Software]
+        tools: [Tool]
+        givens: [Given]
     }
 `
 const resolvers = {

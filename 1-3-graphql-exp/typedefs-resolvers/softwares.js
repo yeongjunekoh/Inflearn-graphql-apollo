@@ -2,10 +2,10 @@ const { gql } = require('apollo-server')
 const database = require('../database.js')
 
 const typeDefs = gql`
-    type Software {
+    type Software implements Tool {
         id: ID!
-        used_by: Role,
-        developed_by: String,
+        used_by: Role!
+        developed_by: String
         description: String
     }
 `
