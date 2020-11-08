@@ -15,11 +15,27 @@ const typeDefs = gql`
         tools: [Tool]
         givens: [Given]
     }
+
+    input postPersonInput {
+        first_name: String!
+        last_name: String!
+        sex: String!
+        blood_type: BloodType!
+        serve_years: Int!
+        role: Role!
+        team: ID!
+        from: String!
+    }
 `
+
 const resolvers = {
     Query: {
         people: (parent, args) => dbWorks.getPeople(args),
         person: (parent, args) => dbWorks.getPeople(args)[0]
+    },
+    Mutation: {
+        postPerson: (parent, args) => dbWorks.postPerson(args),
+        editPerson: (parent, args) => dbWorks.editPerson(args)
     }
 }
 

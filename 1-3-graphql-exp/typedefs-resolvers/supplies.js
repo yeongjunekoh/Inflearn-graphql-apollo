@@ -13,7 +13,8 @@ const resolvers = {
         supply: (parent, args) => dbWorks.getSupplies(args)[0]
     },
     Mutation: {
-        postSupply: (parent, args) => dbWorks.postSupply(args)
+        postSupply: (parent, args) => dbWorks.postSupply(args),
+        editSupply: (parent, args) => dbWorks.editSupply(args)
     }
 }
 

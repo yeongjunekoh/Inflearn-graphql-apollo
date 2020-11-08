@@ -29,7 +29,8 @@ const resolvers = {
         team: (parent, args) => dbWorks.getTeams(args)[0],
     },
     Mutation: {
-        postTeam: (parent, args) => dbWorks.postTeam(args)
+        postTeam: (parent, args) => dbWorks.postTeam(args),
+        editTeam: (parent, args) => dbWorks.editTeam(args)
     }
 }
 

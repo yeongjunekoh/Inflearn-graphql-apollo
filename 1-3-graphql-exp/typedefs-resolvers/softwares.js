@@ -15,7 +15,8 @@ const resolvers = {
         software: (parent, args) => dbWorks.getSoftwares(args)[0]
     },
     Mutation: {
-        postSoftware: (parent, args) => dbWorks.postSoftware(args)
+        postSoftware: (parent, args) => dbWorks.postSoftware(args),
+        editSoftware: (parent, args) => dbWorks.editSoftware(args)
     }
 }
 

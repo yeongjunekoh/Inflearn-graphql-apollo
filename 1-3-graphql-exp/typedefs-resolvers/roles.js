@@ -10,10 +10,12 @@ const typeDefs = gql`
 `
 const resolvers = {
     Query: {
-        roles: (parent, args) => dbWorks.getRoles(args)
+        roles: (parent, args) => dbWorks.getRoles(args),
+        role: (parent, args) => dbWorks.getRoles(args)[0]
     },
     Mutation: {
-        postRole: (parent, args) => dbWorks.postRole(args)
+        postRole: (parent, args) => dbWorks.postRole(args),
+        editRole: (parent, args) => dbWorks.editRole(args),
     }
 }
 

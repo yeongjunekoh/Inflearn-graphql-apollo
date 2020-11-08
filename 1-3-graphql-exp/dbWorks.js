@@ -30,14 +30,25 @@ const dbWorks = {
         }),
     postTeam: (args) => {
         const newTeam = {
-            id: Math.max(database.teams.map((team) => {
+            id: database.teams.map((team) => {
                 return Number(team.id)
-            })),
-            ...args
+            }).reduce((a, b) => {
+                return Math.max(a, b)
+            }, 0) + 1,
+            ...args.input
         }
         database.teams.push(newTeam)
         return newTeam
     },
+    editTeam: (args) => {
+        return database.teams.filter((team) => {
+            return team.id == args.id
+        }).map((team) => {
+            Object.assign(team, args.input)
+            return team 
+        })[0]
+    },
+
     getPeople: (args) => dataFiltered('people', args) 
         .map((person) => {
             person.tools = [
@@ -50,11 +61,39 @@ const dbWorks = {
             ]
             return person
         }),
+    postPerson: (args) => {
+        const newPerson = {
+            id: database.people.map((person) => {
+                return Number(person.id)
+            }).reduce((a, b) => {
+                return Math.max(a, b)
+            }, 0) + 1,
+            ...args.input
+        }
+        database.people.push(newPerson)
+        return newPerson
+    },
+    editPerson: (args) => {
+        return database.people.filter((person) => {
+            return person.id == args.id
+        }).map((person) => {
+            Object.assign(person, args.input)
+            return person 
+        })[0]
+    },
 
     getRoles: (args) => dataFiltered('roles', args),
     postRole: (args) => {
         database.roles.push(args)
         return args
+    },
+    editRole: (args) => {
+        return database.Roles.filter((role) => {
+            return role.id == args.id
+        }).map((role) => {
+            Object.assign(role, args)
+            return role
+        })[0]
     },
 
     getEquipments: (args) => dataFiltered('equipments', args),
@@ -62,17 +101,50 @@ const dbWorks = {
         database.equipments.push(args)
         return args
     },
+    editEquipment: (args) => {
+        return database.equipments.filter((equipment) => {
+            return equipment.id == args.id
+        }).map((equipment) => {
+            Object.assign(equipment, args)
+            return equipment
+        })[0]
+    },
+    increaseEquipment: (args) =>{
+        return database.equipments.filter((equipment) => {
+            return equipment.id == args.id
+        }).map((equipment) => {
+            equipment.count += args.increase 
+            return equipment
+        })[0]
+
+    },
 
     getSoftwares: (args) => dataFiltered('softwares', args),
     postSoftware: (args) => {
         database.softwares.push(args)
         return args
     },
+    editSoftware: (args) => {
+        return database.softwares.filter((software) => {
+            return software.id == args.id
+        }).map((software) => {
+            Object.assign(software, args)
+            return software 
+        })[0]
+    },
 
     getSupplies: (args) => dataFiltered('supplies', args),
     postSupply: (args) => {
         database.supplies.push(args)
         return args
+    },
+    editSupply: (args) => {
+        return database.supplies.filter((supply) => {
+            return supply.id == args.id
+        }).map((supply) => {
+            Object.assign(supply, args)
+            return supply
+        })[0]
     }
 
 }
