@@ -13,6 +13,9 @@ const resolvers = {
     Query: {
         equipments: (parent, args) => dbWorks.getEquipments(args),
         equipment: (parent, args) => dbWorks.getEquipments(args)[0]
+    },
+    Mutation: {
+        postEquipment: (parent, args) => dbWorks.postEquipment(args)
     }
 }
 

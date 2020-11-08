@@ -2,6 +2,7 @@ const { ApolloServer } = require('apollo-server')
 const _ = require('lodash')
 
 const queries = require('./typedefs-resolvers/_queries')
+const mutations = require('./typedefs-resolvers/_mutations')
 const enums = require('./typedefs-resolvers/_enums')
 const teams = require('./typedefs-resolvers/teams')
 const people = require('./typedefs-resolvers/people')
@@ -13,6 +14,7 @@ const givens = require('./typedefs-resolvers/givens')
 
 const typeDefs = [
     queries,
+    mutations,
     enums,
     teams.typeDefs,
     people.typeDefs,

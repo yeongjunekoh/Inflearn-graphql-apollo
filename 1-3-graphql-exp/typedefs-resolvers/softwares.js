@@ -13,6 +13,9 @@ const resolvers = {
     Query: {
         softwares: (parent, args) => dbWorks.getSoftwares(args),
         software: (parent, args) => dbWorks.getSoftwares(args)[0]
+    },
+    Mutation: {
+        postSoftware: (parent, args) => dbWorks.postSoftware(args)
     }
 }
 

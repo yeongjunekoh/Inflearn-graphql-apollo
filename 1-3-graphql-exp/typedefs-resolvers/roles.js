@@ -11,6 +11,9 @@ const typeDefs = gql`
 const resolvers = {
     Query: {
         roles: (parent, args) => dbWorks.getRoles(args)
+    },
+    Mutation: {
+        postRole: (parent, args) => dbWorks.postRole(args)
     }
 }
 

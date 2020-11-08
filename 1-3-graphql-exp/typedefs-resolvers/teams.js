@@ -29,7 +29,7 @@ const resolvers = {
         team: (parent, args) => dbWorks.getTeams(args)[0],
     },
     Mutation: {
-        postTeam: (parent, args) => console.log(args)
+        postTeam: (parent, args) => dbWorks.postTeam(args)
     }
 }
 

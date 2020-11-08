@@ -28,10 +28,6 @@ const typeDefs = gql`
         supplies(team: ID): [Supply]
         supply(id: ID!): Supply
     }
-
-    type Mutation {
-        postTeam(input: postTeamInput!): Team!
-    }
 `
 
 module.exports = typeDefs

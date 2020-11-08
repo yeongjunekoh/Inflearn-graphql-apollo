@@ -23,13 +23,22 @@ const dataFiltered = (which, args) => {
 }
 
 const dbWorks = {
-    getTeams : (args) => dataFiltered('teams', args)
+    getTeams: (args) => dataFiltered('teams', args)
         .map((team) => {
             team.members = dbWorks.getPeople({team: team.id})
             return team
         }),
-
-    getPeople : (args) => dataFiltered('people', args) 
+    postTeam: (args) => {
+        const newTeam = {
+            id: Math.max(database.teams.map((team) => {
+                return Number(team.id)
+            })),
+            ...args
+        }
+        database.teams.push(newTeam)
+        return newTeam
+    },
+    getPeople: (args) => dataFiltered('people', args) 
         .map((person) => {
             person.tools = [
                 ...dbWorks.getEquipments({used_by: person.role}),
@@ -43,12 +52,28 @@ const dbWorks = {
         }),
 
     getRoles: (args) => dataFiltered('roles', args),
+    postRole: (args) => {
+        database.roles.push(args)
+        return args
+    },
 
     getEquipments: (args) => dataFiltered('equipments', args),
+    postEquipment: (args) => {
+        database.equipments.push(args)
+        return args
+    },
 
     getSoftwares: (args) => dataFiltered('softwares', args),
+    postSoftware: (args) => {
+        database.softwares.push(args)
+        return args
+    },
 
-    getSupplies: (args) => dataFiltered('supplies', args)
+    getSupplies: (args) => dataFiltered('supplies', args),
+    postSupply: (args) => {
+        database.supplies.push(args)
+        return args
+    }
 
 }
 
