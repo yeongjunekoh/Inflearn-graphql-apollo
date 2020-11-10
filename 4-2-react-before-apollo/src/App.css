@@ -13,20 +13,20 @@ h1 {
   font-size: 1.6em;
   margin: 0 24px;
 }
-navigator {
+nav {
   display: inline-block;
 }
 
-navigator ul {
+nav ul {
   display: flex;
   flex-direction: row;
 }
-navigator ul li {
+nav ul li {
   margin-left: 16px;
   cursor: pointer;
 }
-navigator ul li.selected,
-navigator ul li:hover {
+nav ul li.on,
+nav ul li:hover {
   color: dodgerblue;
   text-decoration: underline;
 }
