@@ -16,7 +16,8 @@ const resolvers = {
     },
     Mutation: {
         postSoftware: (parent, args) => dbWorks.postSoftware(args),
-        editSoftware: (parent, args) => dbWorks.editSoftware(args)
+        editSoftware: (parent, args) => dbWorks.editSoftware(args),
+        deleteSoftware: (parent, args) => dbWorks.deleteItem('softwares', args)
     }
 }
 

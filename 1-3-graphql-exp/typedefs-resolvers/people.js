@@ -35,7 +35,8 @@ const resolvers = {
     },
     Mutation: {
         postPerson: (parent, args) => dbWorks.postPerson(args),
-        editPerson: (parent, args) => dbWorks.editPerson(args)
+        editPerson: (parent, args) => dbWorks.editPerson(args),
+        deletePerson: (parent, args) => dbWorks.deleteItem('people', args)
     }
 }
 

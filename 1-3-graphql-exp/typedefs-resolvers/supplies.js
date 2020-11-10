@@ -14,7 +14,8 @@ const resolvers = {
     },
     Mutation: {
         postSupply: (parent, args) => dbWorks.postSupply(args),
-        editSupply: (parent, args) => dbWorks.editSupply(args)
+        editSupply: (parent, args) => dbWorks.editSupply(args),
+        deleteSupply: (parent, args) => dbWorks.deleteItem('supplies', args)
     }
 }
 

@@ -54,6 +54,7 @@ api.put('/:id', (req, res) => {
       delete data[key]
     })
     Object.assign(data, req.body)
+    data.id = req.params.id
     result = data
   })
   res.send(result)

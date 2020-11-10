@@ -16,6 +16,7 @@ const resolvers = {
     Mutation: {
         postRole: (parent, args) => dbWorks.postRole(args),
         editRole: (parent, args) => dbWorks.editRole(args),
+        deleteRole: (parent, args) => dbWorks.deleteItem('roles', args)
     }
 }
 

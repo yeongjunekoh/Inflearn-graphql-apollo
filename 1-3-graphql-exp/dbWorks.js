@@ -22,6 +22,16 @@ const dataFiltered = (which, args) => {
     return result
 }
 
+const deleteItem = (which, args) => {
+    const deleted = database[which].filter((item) => {
+        return item.id == args.id
+    })[0]
+    database[which] = database[which].filter((item) => {
+        return item.id != args.id
+    })
+    return deleted
+}
+
 const dbWorks = {
     getTeams: (args) => dataFiltered('teams', args)
         .map((team) => {
@@ -145,7 +155,9 @@ const dbWorks = {
             Object.assign(supply, args)
             return supply
         })[0]
-    }
+    },
+
+    deleteItem: deleteItem
 
 }
 

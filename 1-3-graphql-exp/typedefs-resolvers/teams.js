@@ -30,7 +30,8 @@ const resolvers = {
     },
     Mutation: {
         postTeam: (parent, args) => dbWorks.postTeam(args),
-        editTeam: (parent, args) => dbWorks.editTeam(args)
+        editTeam: (parent, args) => dbWorks.editTeam(args),
+        deleteTeam: (parent, args) => dbWorks.deleteItem('teams', args)
     }
 }
 
