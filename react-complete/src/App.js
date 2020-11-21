@@ -4,7 +4,7 @@ import { ApolloProvider } from '@apollo/client';
 import { ApolloClient, InMemoryCache } from '@apollo/client';
 
 import Teams from './components/teams'
-import Members from './components/members'
+import People from './components/people'
 import Roles from './components/roles'
 import Equipments from './components/equipments'
 import Softwares from './components/softwares'
@@ -21,16 +21,16 @@ function App() {
 
   let mainComp = {
     Teams: (<Teams/>),
-    Members: (<Members/>),
+    People: (<People/>),
     Roles: (<Roles/>),
     Equipments: (<Equipments/>),
     Softwares: (<Softwares/>),
     Supplies: (<Supplies/>),
   }
 
-  function insertNavMenus () {
+  function NavMenus () {
     return [
-      'Teams', 'Members', 'Roles', 'Equipments', 'Softwares', 'Supplies'
+      'Teams', 'People', 'Roles', 'Equipments', 'Softwares', 'Supplies'
     ].map((_menu, key) => {
         return (
           <li key={key} className={menu === _menu ? 'on' : ''}
@@ -46,7 +46,7 @@ function App() {
           <h1>Company Management</h1>
           <nav>
             <ul>
-              {insertNavMenus()}
+              {NavMenus()}
             </ul>
           </nav>
         </header>

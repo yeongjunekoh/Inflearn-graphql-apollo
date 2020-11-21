@@ -2,21 +2,21 @@ import './components.css';
 
 function Teams() {
 
-    function insertAsideElements () {
+    function AsideItems () {
         return (<div></div>);
     }
 
-    function insertContentsElements () {
+    function MainContents () {
         return (<div></div>);
     }
 
     return (
         <div id="teams" className="component">
             <aside>
-                {insertAsideElements()}
+                {AsideItems()}
             </aside>
             <section className="contents">
-                {insertContentsElements()}
+                {MainContents()}
             </section>
         </div>
     )

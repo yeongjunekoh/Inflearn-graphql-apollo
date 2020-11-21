@@ -2,7 +2,7 @@ import './App.css';
 import React, { useState } from 'react';
 
 import Teams from './components/teams'
-import Members from './components/members'
+import People from './components/people'
 import Roles from './components/roles'
 import Equipments from './components/equipments'
 import Softwares from './components/softwares'
@@ -13,23 +13,23 @@ function App() {
   const [menu, setMenu] = useState('Teams')
 
   let mainComp = {
-    Teams: (<Teams/>),
-    Members: (<Members/>),
-    Roles: (<Roles/>),
-    Equipments: (<Equipments/>),
-    Softwares: (<Softwares/>),
-    Supplies: (<Supplies/>),
+    Teams: (<Teams />),
+    People: (<People />),
+    Roles: (<Roles />),
+    Equipments: (<Equipments />),
+    Softwares: (<Softwares />),
+    Supplies: (<Supplies />),
   }
 
-  function insertNavMenus () {
+  function NavMenus() {
     return [
-      'Teams', 'Members', 'Roles', 'Equipments', 'Softwares', 'Supplies'
+      'Teams', 'People', 'Roles', 'Equipments', 'Softwares', 'Supplies'
     ].map((_menu, key) => {
-        return (
-          <li key={key} className={menu === _menu ? 'on' : ''}
-          onClick={() => {setMenu(_menu);}}>{_menu}</li>
-        );
-      });
+      return (
+        <li key={key} className={menu === _menu ? 'on' : ''}
+          onClick={() => { setMenu(_menu); }}>{_menu}</li>
+      );
+    });
   }
 
   return (
@@ -38,7 +38,7 @@ function App() {
         <h1>Company Management</h1>
         <nav>
           <ul>
-            {insertNavMenus()}
+            {NavMenus()}
           </ul>
         </nav>
       </header>

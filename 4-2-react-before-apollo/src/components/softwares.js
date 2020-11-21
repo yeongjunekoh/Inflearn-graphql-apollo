@@ -2,21 +2,21 @@ import './components.css';
 
 function Softwares() {
 
-    function insertAsideElements () {
+    function AsideItems () {
         return (<div></div>);
     }
 
-    function insertContentsElements () {
+    function MainContents () {
         return (<div></div>);
     }
 
     return (
         <div id="softwares" className="component">
             <aside>
-                {insertAsideElements()}
+                {AsideItems()}
             </aside>
             <section className="contents">
-                {insertContentsElements()}
+                {MainContents()}
             </section>
         </div>
     )
