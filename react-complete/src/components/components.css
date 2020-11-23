@@ -6,6 +6,7 @@
 }
 
 .component aside {
+    flex-shrink: 0;
     width: 320px;
     height: 100%;
     background-color: #333;
@@ -16,42 +17,59 @@
     flex-grow: 1;
     height: 100%;
     overflow-y: scroll;
-    padding: 24px;
+    padding: 20px;
 }
 
-aside {
+.component .contents .inputContainer {
+    display: inline-block;
+    padding: 16px;
+    margin: 4px;
+    background-color: white;
+    border: 1px solid #dddddd;
+    border-radius: 8px;
+}
+.component .contents .inputContainer td {
+    padding: 4px 8px;
+}
+.component .contents .inputContainer td input {
+    border: 1px solid #ccc;
+    height: 20px;
+    line-height: 20px;
+}
+
+.component aside {
     color: white;
 }
 
-aside > ul > li {
+.component aside > ul > li {
     padding: 16px 20px;
     border-bottom: 2px solid #555;
 }
 
-.teamItemTitle {
+.component aside .teamItemTitle {
     font-weight: bold;
     font-size: 1.1em;
     cursor: pointer;
 }
-.teamMembers {
+.component aside .teamMembers {
     margin-top: 8px;
     padding-left: 6px;
     color: #BBB;
 }
-.teamMembers li {
+.component aside .teamMembers li {
     padding: 10px 4px;
     border-bottom: 1px solid #444;
     cursor: pointer;
 }
-.teamMembers li:last-child {
+.component aside .teamMembers li:last-child {
     border-bottom: 0;
 }
 
-aside .face {
+.component aside .face {
     display: inline-block;
     width: 32px;
 }
-aside .bloodType {
+.component aside .bloodType {
     display: inline-block;
     width: 28px;
     margin-right: 20px;
@@ -63,6 +81,6 @@ aside .bloodType {
     background-color: #222;
     border-radius: 4px;
 }
-aside .peopleName {
+.component aside .peopleName {
     cursor: pointer;
 }
