@@ -22,7 +22,7 @@
 
 .component .contents .inputContainer {
     display: inline-block;
-    padding: 16px;
+    padding: 32px;
     margin: 4px;
     background-color: white;
     border: 1px solid #dddddd;
@@ -35,6 +35,15 @@
     border: 1px solid #ccc;
     height: 20px;
     line-height: 20px;
+}
+.component .contents .inputContainer .buttons {
+    margin-top: 24px;
+    text-align: center;
+}
+.component .contents .inputContainer .buttons button {
+    margin-right: 8px;
+    padding: 8px 24px;
+    cursor: pointer;
 }
 
 .component aside {
