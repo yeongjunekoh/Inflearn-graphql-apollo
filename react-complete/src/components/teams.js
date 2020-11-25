@@ -1,6 +1,6 @@
 import './components.css';
 import { useState } from 'react';
-import { useQuery, gql } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 
 const GET_TEAMS = gql`
   query GetTeams {
@@ -31,10 +31,37 @@ const GET_TEAM = gql`
   }
 `;
 
+const DELETE_TEAM = gql`
+  mutation DeleteTeam($id: ID!) {
+    deleteTeam(id: $id) {
+      id
+    }
+  }
+`
+
+let refetchTeams = () => {}
+
 function Teams() {
 
   const [contentId, setContentId] = useState(0)
-  const [team, setTeam] = useState({})
+
+  const [manager, setManager] = useState('')
+  const [office, setOffice] = useState('')
+  const [extension_number, setExtensionNumber] = useState('')
+  const [mascot, setMascot] = useState('')
+  const [cleaning_duty, setCleaningDuty] = useState('')
+  const [project, setProject] = useState('')
+
+  const [deleteTeam, { data }] = useMutation(DELETE_TEAM); 
+
+  function execDeleteTeam () {
+    if (window.confirm('이 항목을 삭제하시겠습니까?')) {
+      deleteTeam({variables: {id: contentId}})
+      alert(`${contentId} 항목이 삭제되었습니다.`)
+      refetchTeams()
+      setContentId(0)
+    }
+  }
 
   function AsideItems () {
 
@@ -44,7 +71,9 @@ function Teams() {
       planner: '📝'
     }
 
-    const { loading, error, data } = useQuery(GET_TEAMS);
+    const { loading, error, data, refetch } = useQuery(GET_TEAMS);
+
+    refetchTeams = refetch
 
     if (loading) return <p className="loading">Loading...</p>
     if (error) return <p className="error">Error :(</p>
@@ -76,30 +105,39 @@ function Teams() {
   function MainContents () {
 
     const { loading, error, data } = useQuery(GET_TEAM, {
-      variables: {id: contentId}
+      variables: {id: contentId},
+      onCompleted: (data) => {
+        if (contentId === 0) {
+          setManager('')
+          setOffice('')
+          setExtensionNumber('')
+          setMascot('')
+          setCleaningDuty('')
+          setProject('')
+        } else {
+          setManager(data.team.manager)
+          setOffice(data.team.office)
+          setExtensionNumber(data.team.extension_number)
+          setMascot(data.team.mascot)
+          setCleaningDuty(data.team.cleaning_duty)
+          setProject(data.team.project)
+        }
+      }
     });
 
     if (loading) return <p className="loading">Loading...</p>
     if (error) return <p className="error">Error :(</p>
 
-    let teamObj = {} 
-    Object.assign(teamObj, contentId === 0 ? {
-        manager: '',
-        office: '',
-        extension_number: '',
-        mascot: '',
-        cleaning_duty: '',
-        project: ''
-    } : data.team)
-
-    Object.assign(team, teamObj)
-
-    console.log('HOHO')
-
     function handleChange(e, key) {
-      teamObj[key] = e.target.value
-      // setTeam(teamObj)
-      console.log(team)
+      const setters = {
+        manager: setManager,
+        office: setOffice,
+        extension_number: setExtensionNumber,
+        mascot: setMascot,
+        cleaning_duty: setCleaningDuty,
+        project: setProject
+      }
+      setters[key](e.target.value)
     }
 
     return (
@@ -115,37 +153,37 @@ function Teams() {
             <tr>
               <td>Manager</td>
               <td>
-                <input type="text" value={team.manager} onChange={(e) => {handleChange(e, 'manager')}}/>
+                <input type="text" value={manager} onChange={(e) => {handleChange(e, 'manager')}}/>
               </td>
             </tr>
             <tr>
               <td>Office</td>
               <td>
-                <input type="text" value={team.office} onChange={(e) => {handleChange(e, 'office')}}/>
+                <input type="text" value={office} onChange={(e) => {handleChange(e, 'office')}}/>
               </td>
             </tr>
             <tr>
               <td>Extension Number</td>
               <td>
-                <input type="text" value={team.extension_number} onChange={(e) => {handleChange(e, 'extension_number')}}/>
+                <input type="text" value={extension_number} onChange={(e) => {handleChange(e, 'extension_number')}}/>
               </td>
             </tr>
             <tr>
               <td>Mascot</td>
               <td>
-                <input type="text" value={team.mascot} onChange={(e) => {handleChange(e, 'mascot')}}/>
+                <input type="text" value={mascot} onChange={(e) => {handleChange(e, 'mascot')}}/>
               </td>
             </tr>
             <tr>
               <td>Cleaning Duty</td>
               <td>
-                <input type="text" value={team.cleaning_duty} onChange={(e) => {handleChange(e, 'cleaning_duty')}}/>
+                <input type="text" value={cleaning_duty} onChange={(e) => {handleChange(e, 'cleaning_duty')}}/>
               </td>
             </tr>
             <tr>
               <td>Project</td>
               <td>
-                <input type="text" value={team.project} onChange={(e) => {handleChange(e, 'project')}}/>
+                <input type="text" value={project} onChange={(e) => {handleChange(e, 'project')}}/>
               </td>
             </tr>
           </tbody>
@@ -157,7 +195,7 @@ function Teams() {
           ) : (
           <div className="buttons">
             <button>Modify</button>
-            <button>Delete</button>
+            <button onClick={() => {execDeleteTeam()}}>Delete</button>
             <button onClick={() => {setContentId(0)}}>New</button>
           </div>
           )}
