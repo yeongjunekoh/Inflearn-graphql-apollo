@@ -16,7 +16,7 @@ const typeDefs = gql`
         givens: [Given]
     }
 
-    input postPersonInput {
+    input PostPersonInput {
         first_name: String!
         last_name: String!
         sex: String!

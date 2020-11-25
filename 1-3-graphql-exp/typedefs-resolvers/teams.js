@@ -13,7 +13,7 @@ const typeDefs = gql`
         members: [People]
     }
 
-    input postTeamInput {
+    input PostTeamInput {
         manager: String!
         office: String
         extension_number: String

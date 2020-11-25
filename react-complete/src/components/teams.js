@@ -24,7 +24,7 @@ const GET_TEAM = gql`
         manager,
         office,
         extension_number,
-        mascot
+        mascot,
         cleaning_duty,
         project
       }
@@ -35,6 +35,20 @@ const DELETE_TEAM = gql`
   mutation DeleteTeam($id: ID!) {
     deleteTeam(id: $id) {
       id
+    }
+  }
+`
+
+const POST_TEAM = gql`
+  mutation PostTeam($input: PostTeamInput!) {
+    postTeam(input: $input) {
+      id,
+      manager,
+      office,
+      extension_number,
+      mascot,
+      cleaning_duty,
+      project
     }
   }
 `
@@ -52,7 +66,8 @@ function Teams() {
   const [cleaning_duty, setCleaningDuty] = useState('')
   const [project, setProject] = useState('')
 
-  const [deleteTeam, { data }] = useMutation(DELETE_TEAM); 
+  const [postTeam, { postTeamData }] = useMutation(POST_TEAM); 
+  const [deleteTeam, { deleteTeamData }] = useMutation(DELETE_TEAM); 
 
   function execDeleteTeam () {
     if (window.confirm('이 항목을 삭제하시겠습니까?')) {
@@ -61,6 +76,14 @@ function Teams() {
       refetchTeams()
       setContentId(0)
     }
+  }
+
+  function execPostTeam () {
+    postTeam({
+      variables: {
+        input: {
+          manager, office, extension_number, mascot, cleaning_duty, project
+        }}})
   }
 
   function AsideItems () {
@@ -190,7 +213,7 @@ function Teams() {
         </table>
         {contentId === 0 ? (
           <div className="buttons">
-            <button>Submit</button>
+            <button onClick={() => {execPostTeam()}}>Submit</button>
           </div>
           ) : (
           <div className="buttons">
