@@ -53,6 +53,20 @@ const POST_TEAM = gql`
   }
 `
 
+const EDIT_TEAM = gql`
+  mutation EditTeam($id: ID!, $input: PostTeamInput!) {
+    editTeam(id: $id, input: $input) {
+      id,
+      manager,
+      office,
+      extension_number,
+      mascot,
+      cleaning_duty,
+      project
+    }
+  }
+`
+
 let refetchTeams = () => {}
 
 function Teams() {
@@ -66,17 +80,12 @@ function Teams() {
   const [cleaning_duty, setCleaningDuty] = useState('')
   const [project, setProject] = useState('')
 
-  const [postTeam, { postTeamData }] = useMutation(POST_TEAM); 
-  const [deleteTeam, { deleteTeamData }] = useMutation(DELETE_TEAM); 
-
-  function execDeleteTeam () {
-    if (window.confirm('이 항목을 삭제하시겠습니까?')) {
-      deleteTeam({variables: {id: contentId}})
-      alert(`${contentId} 항목이 삭제되었습니다.`)
-      refetchTeams()
-      setContentId(0)
-    }
-  }
+  const [postTeam, { postTeamData }] = useMutation(
+    POST_TEAM, { onCompleted: postTeamCompleted }); 
+  const [editTeam, { editTeamData }] = useMutation(
+    EDIT_TEAM, { onCompleted: editTeamCompleted }); 
+  const [deleteTeam, { deleteTeamData }] = useMutation(
+    DELETE_TEAM, { onCompleted: deleteTeamCompleted }); 
 
   function execPostTeam () {
     postTeam({
@@ -84,6 +93,35 @@ function Teams() {
         input: {
           manager, office, extension_number, mascot, cleaning_duty, project
         }}})
+  }
+  function postTeamCompleted (data) {
+    alert(`${data.postTeam.id} 항목이 생성되었습니다.`)
+    refetchTeams()
+    setContentId(0)
+  }
+
+  function execEditTeam () {
+    editTeam({
+      variables: {
+        id: contentId,
+        input: {
+          manager, office, extension_number, mascot, cleaning_duty, project
+        }}})
+  }
+  function editTeamCompleted (data) {
+    alert(`${data.editTeam.id} 항목이 수정되었습니다.`)
+    refetchTeams()
+  }
+
+  function execDeleteTeam () {
+    if (window.confirm('이 항목을 삭제하시겠습니까?')) {
+      deleteTeam({variables: {id: contentId}})
+    }
+  }
+  function deleteTeamCompleted (data) {
+    alert(`${data.deleteTeam.id} 항목이 삭제되었습니다.`)
+    refetchTeams()
+    setContentId(0)
   }
 
   function AsideItems () {
@@ -217,7 +255,7 @@ function Teams() {
           </div>
           ) : (
           <div className="buttons">
-            <button>Modify</button>
+            <button onClick={() => {execEditTeam()}}>Modify</button>
             <button onClick={() => {execDeleteTeam()}}>Delete</button>
             <button onClick={() => {setContentId(0)}}>New</button>
           </div>
