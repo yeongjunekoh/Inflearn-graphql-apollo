@@ -110,7 +110,7 @@ function Teams() {
                 Team {id} : {manager}'s
               </span>
               <ul className="teamMembers">
-                {members.map(({id, first_name, last_name, role, tools}) => {
+                {members.map(({id, first_name, last_name, role}) => {
                   return (
                     <li key={id}>
                       {roleIcons[role]} {first_name} {last_name}
@@ -127,7 +127,7 @@ function Teams() {
 
   function MainContents () {
 
-    const { loading, error, data } = useQuery(GET_TEAM, {
+    const { loading, error } = useQuery(GET_TEAM, {
       variables: {id: contentId},
       onCompleted: (data) => {
         if (contentId === 0) {

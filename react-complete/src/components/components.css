@@ -36,6 +36,14 @@
     height: 20px;
     line-height: 20px;
 }
+.component .contents .inputContainer td input[type=number] {
+    width: 44px;
+}
+.component .contents .inputContainer td select {
+    border: 1px solid #ccc;
+    height: 24px;
+    line-height: 24px;
+}
 .component .contents .inputContainer .buttons {
     margin-top: 24px;
     text-align: center;
