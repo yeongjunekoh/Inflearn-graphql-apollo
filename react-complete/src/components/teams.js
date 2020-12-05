@@ -80,12 +80,12 @@ function Teams() {
   const [cleaning_duty, setCleaningDuty] = useState('')
   const [project, setProject] = useState('')
 
-  const [postTeam, { postTeamData }] = useMutation(
-    POST_TEAM, { onCompleted: postTeamCompleted }); 
-  const [editTeam, { editTeamData }] = useMutation(
-    EDIT_TEAM, { onCompleted: editTeamCompleted }); 
-  const [deleteTeam, { deleteTeamData }] = useMutation(
-    DELETE_TEAM, { onCompleted: deleteTeamCompleted }); 
+  const [postTeam] = useMutation(
+    POST_TEAM, { onCompleted: postTeamCompleted }) 
+  const [editTeam] = useMutation(
+    EDIT_TEAM, { onCompleted: editTeamCompleted }) 
+  const [deleteTeam] = useMutation(
+    DELETE_TEAM, { onCompleted: deleteTeamCompleted }) 
 
   function execPostTeam () {
     postTeam({
