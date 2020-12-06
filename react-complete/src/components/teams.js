@@ -5,13 +5,13 @@ import { useQuery, useMutation, gql } from '@apollo/client';
 const GET_TEAMS = gql`
   query GetTeams {
     teams {
-        id,
-        manager,
+        id
+        manager
         members {
-          id,
-          first_name,
-          last_name,
-          role,
+          id
+          first_name
+          last_name
+          role
         }
       }
   }
@@ -20,12 +20,12 @@ const GET_TEAMS = gql`
 const GET_TEAM = gql`
   query GetTeam($id: ID!) {
     team(id: $id) {
-        id,
-        manager,
-        office,
-        extension_number,
-        mascot,
-        cleaning_duty,
+        id
+        manager
+        office
+        extension_number
+        mascot
+        cleaning_duty
         project
       }
   }
@@ -42,12 +42,12 @@ const DELETE_TEAM = gql`
 const POST_TEAM = gql`
   mutation PostTeam($input: PostTeamInput!) {
     postTeam(input: $input) {
-      id,
-      manager,
-      office,
-      extension_number,
-      mascot,
-      cleaning_duty,
+      id
+      manager
+      office
+      extension_number
+      mascot
+      cleaning_duty
       project
     }
   }
@@ -249,8 +249,8 @@ function Teams() {
             </tr>
           </tbody>
         </table>
-        {contentId === 0 ? (
-          <div className="buttons">
+        {contentId === 0 ? 
+          (<div className="buttons">
             <button onClick={() => {execPostTeam()}}>Submit</button>
           </div>
           ) : (

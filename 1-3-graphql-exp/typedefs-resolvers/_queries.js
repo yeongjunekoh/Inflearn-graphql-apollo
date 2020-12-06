@@ -10,7 +10,7 @@ const typeDefs = gql`
         people(
             page: Int, per_page: Int, 
             team: ID, 
-            sex: String, 
+            sex: Sex, 
             blood_type: BloodType, 
             from: String
             ): [People]

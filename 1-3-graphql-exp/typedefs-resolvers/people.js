@@ -6,7 +6,7 @@ const typeDefs = gql`
         id: ID!
         first_name: String!
         last_name: String!
-        sex: String!
+        sex: Sex!
         blood_type: BloodType!
         serve_years: Int!
         role: Role!
@@ -19,7 +19,7 @@ const typeDefs = gql`
     input PostPersonInput {
         first_name: String!
         last_name: String!
-        sex: String!
+        sex: Sex!
         blood_type: BloodType!
         serve_years: Int!
         role: Role!

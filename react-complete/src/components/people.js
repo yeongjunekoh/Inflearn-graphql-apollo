@@ -1,14 +1,14 @@
 import './components.css';
 import { useState } from 'react';
-import { useQuery, userMutation, gql, useMutation } from '@apollo/client';
+import { useQuery, useMutation, gql } from '@apollo/client';
 
 const GET_PEOPLE = gql`
   query GetPeople {
   people {
-    id,
-    first_name,
-    last_name,
-    sex,
+    id
+    first_name
+    last_name
+    sex
     blood_type
     }
   }
@@ -16,15 +16,15 @@ const GET_PEOPLE = gql`
 
 const GET_PERSON = gql`
   query GetPeople($id: ID!) {
-    team(id: $id) {
-      id,
-      first_name,
-      last_name,
-      sex,
-      blood_type,
-      serve_years,
-      role,
-      team,
+    person(id: $id) {
+      id
+      first_name
+      last_name
+      sex
+      blood_type
+      serve_years
+      role
+      team
       from
     }
   }
@@ -39,15 +39,15 @@ const DELETE_PERSON = gql`
 `
 const POST_PERSON = gql`
   mutation PostPerson($input: PostPersonInput!) {
-    postTeam(input: $input) {
+    postPerson(input: $input) {
       id,
-      first_name,
-      last_name,
-      sex,
-      blood_type,
-      serve_years,
-      role,
-      team,
+      first_name
+      last_name
+      sex
+      blood_type
+      serve_years
+      role
+      team
       from
     }
   }
@@ -55,7 +55,7 @@ const POST_PERSON = gql`
 
 const EDIT_PERSON = gql`
   mutation EditTeam($id: ID!, $input: PostPersonInput!) {
-    editTeam(id: $id, input: $input) {
+    editPerson(id: $id, input: $input) {
       id,
       first_name,
       last_name,
@@ -74,14 +74,15 @@ let refetchPeople = () => {}
 function People() {
   const [contentId, setContentId] = useState(0)
   
+  const sexes = ['male', 'female']
   const bloodTypes = ['A', 'B', 'AB', 'O']
   const roles = ['developer', 'designer', 'planner']
 
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName] = useState('')
+  const [first_name, setFirstName] = useState('')
+  const [last_name, setLastName] = useState('')
   const [sex, setSex] = useState('')
-  const [bloodType, setBloodType] = useState(bloodTypes[0])
-  const [serveYears, setServeYears] = useState(0)
+  const [blood_type, setBloodType] = useState(bloodTypes[0])
+  const [serve_years, setServeYears] = useState(0)
   const [role, setRole] = useState(roles[0])
   const [team, setTeam] = useState(0)
   const [from, setFrom] = useState('')
@@ -97,7 +98,7 @@ function People() {
     postPerson({
       variables: {
         input: {
-          firstName, lastName, sex, bloodType, serveYears, role, team, from
+          first_name, last_name, sex, blood_type, serve_years, role, team, from
         }}})
   }
   function postPersonCompleted (data) {
@@ -111,7 +112,7 @@ function People() {
       variables: {
         id: contentId,
         input: {
-          firstName, lastName, sex, bloodType, serveYears, role, team, from
+          first_name, last_name, sex, blood_type, serve_years, role, team, from
         }}})
   }
   function editPersonCompleted (data) {
@@ -135,12 +136,12 @@ function People() {
 
     refetchPeople = refetch
 
-    function peopleFaces(sex) {
+    function peopleFaces(sex, id) {
       const bySex = {
         male: ['🧑🏿', '👨🏻', '👦🏼', '‍🧓🏽', '🧔🏾'],
         female: ['👩🏻', '👧🏼', '👩🏽‍🦰', '👩🏾‍🦱', '👱🏿‍♀️']
       }
-      return bySex[sex][Math.floor(Math.random() * bySex[sex].length)]
+      return bySex[sex][id % bySex[sex].length]
     }
 
     if (loading) return <p className="loading">Loading...</p>
@@ -151,8 +152,8 @@ function People() {
         {data.people.map(
           ({id, sex, first_name, last_name, blood_type}) => {
             return (
-              <li key={id}>
-                <span className="face">{peopleFaces(sex)}</span>
+              <li key={id} onClick={() => {setContentId(id)}}>
+                <span className="face">{peopleFaces(sex, id)}</span>
                 <span className="bloodType">{blood_type}</span>
                 <span className="peopleName">{first_name} {last_name}</span>
               </li>
@@ -177,14 +178,14 @@ function People() {
           setTeam(0)
           setFrom('')
         } else {
-          setFirstName('')
-          setLastName('')
-          setSex('')
-          setBloodType(bloodTypes[0])
-          setServeYears(0)
-          setRole(roles[0])
-          setTeam(0)
-          setFrom('')
+          setFirstName(data.person.first_name)
+          setLastName(data.person.last_name)
+          setSex(data.person.sex)
+          setBloodType(data.person.blood_type)
+          setServeYears(data.person.serve_years)
+          setRole(data.person.role)
+          setTeam(data.person.team)
+          setFrom(data.person.from)
         }
       }
     });
@@ -203,7 +204,9 @@ function People() {
           team: setTeam,
           from: setFrom
       }
-      setters[key](e.target.value)
+      const numberType = ['serve_years']
+      const value = numberType.includes(key) ? Number(e.target.value) : e.target.value
+      setters[key](value)
     }
 
     return (
@@ -219,28 +222,34 @@ function People() {
             <tr>
               <td>First Name</td>
               <td>
-                  <input type="text"/>
+                <input type="text" value={first_name} onChange={(e) => {handleChange(e, 'first_name')}}/>
               </td>
             </tr>
             <tr>
               <td>Last Name</td>
               <td>
-                  <input type="text"/>
+                <input type="text" value={last_name} onChange={(e) => {handleChange(e, 'last_name')}}/>
               </td>
             </tr>
             <tr>
               <td>Sex</td>
               <td>
-                  <input type="text"/>
+                <select value={sex} onChange={(e) => {handleChange(e, 'sex')}}>
+                  {sexes.map((sex) => {
+                    return (
+                      <option key={sex} value={sex}>{sex}</option>                    
+                    )
+                  })}
+                </select>
               </td>
             </tr>
             <tr>
               <td>Blood Type</td>
               <td>
-                <select>
+                <select value={blood_type} onChange={(e) => {handleChange(e, 'blood_type')}}>
                   {bloodTypes.map((bloodType) => {
                     return (
-                      <option>{bloodType}</option>                    
+                      <option key={bloodType} value={bloodType}>{bloodType}</option>                    
                     )
                   })}
                 </select>
@@ -249,16 +258,16 @@ function People() {
             <tr>
               <td>Serve Years</td>
               <td>
-                  <input type="number"/>
+                  <input type="number" value={serve_years} onChange={(e) => {handleChange(e, 'serve_years')}}/>
               </td>
             </tr>
             <tr>
               <td>Role</td>
               <td>
-                <select>
-                  {roles.map((bloodType) => {
+                <select value={role} onChange={(e) => {handleChange(e, 'role')}}>
+                  {roles.map((role) => {
                     return (
-                      <option>{bloodType}</option>                    
+                      <option key={role} value={role}>{role}</option>                    
                     )
                   })}
                 </select>
@@ -267,17 +276,28 @@ function People() {
             <tr>
               <td>Team</td>
               <td>
-                  <input type="number"/>
+                  <input type="number" value={team} onChange={(e) => {handleChange(e, 'team')}}/>
               </td>
             </tr>
             <tr>
               <td>From</td>
               <td>
-                  <input type="text"/>
+                  <input type="text" value={from} onChange={(e) => {handleChange(e, 'from')}}/>
               </td>
             </tr>
           </tbody>
         </table>
+        {contentId === 0 ? 
+          (<div className="buttons">
+            <button onClick={() => {execPostPerson()}}>Submit</button>
+          </div>
+          ) : (
+          <div className="buttons">
+            <button onClick={() => {execEditPerson()}}>Modify</button>
+            <button onClick={() => {execDeletePerson()}}>Delete</button>
+            <button onClick={() => {setContentId(0)}}>New</button>
+          </div>
+          )}
       </div>
     );
   }
