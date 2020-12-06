@@ -6,6 +6,7 @@ const mutations = require('./typedefs-resolvers/_mutations')
 const enums = require('./typedefs-resolvers/_enums')
 const teams = require('./typedefs-resolvers/teams')
 const people = require('./typedefs-resolvers/people')
+const roles = require('./typedefs-resolvers/roles')
 const equipments = require('./typedefs-resolvers/equipments')
 const softwares = require('./typedefs-resolvers/softwares')
 const supplies = require('./typedefs-resolvers/supplies')
@@ -18,6 +19,7 @@ const typeDefs = [
     enums,
     teams.typeDefs,
     people.typeDefs,
+    roles.typeDefs,
     equipments.typeDefs,
     softwares.typeDefs,
     supplies.typeDefs,
@@ -28,6 +30,7 @@ const typeDefs = [
 const resolvers = _.merge(
     teams.resolvers,
     people.resolvers,
+    roles.resolvers,
     equipments.resolvers,
     softwares.resolvers,
     supplies.resolvers,

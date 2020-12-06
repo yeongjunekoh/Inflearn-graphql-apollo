@@ -92,32 +92,18 @@ const dbWorks = {
         })[0]
     },
 
-    getRoles: (args) => dataFiltered('roles', args),
-    postRole: (args) => {
-        database.roles.push(args)
-        return args
-    },
-    editRole: (args) => {
-        return database.Roles.filter((role) => {
-            return role.id == args.id
-        }).map((role) => {
-            Object.assign(role, args)
+    getRoles: (args) => dataFiltered('roles', args)
+        .map((role) => {
+            role.members = dbWorks.getPeople({role: role.id})
+            role.equipments = dbWorks.getEquipments({used_by: role.id})
+            role.softwares = dbWorks.getSoftwares({used_by: role.id})
             return role
-        })[0]
-    },
+        }),
 
     getEquipments: (args) => dataFiltered('equipments', args),
     postEquipment: (args) => {
         database.equipments.push(args)
         return args
-    },
-    editEquipment: (args) => {
-        return database.equipments.filter((equipment) => {
-            return equipment.id == args.id
-        }).map((equipment) => {
-            Object.assign(equipment, args)
-            return equipment
-        })[0]
     },
     increaseEquipment: (args) =>{
         return database.equipments.filter((equipment) => {
@@ -130,35 +116,8 @@ const dbWorks = {
     },
 
     getSoftwares: (args) => dataFiltered('softwares', args),
-    postSoftware: (args) => {
-        database.softwares.push(args)
-        return args
-    },
-    editSoftware: (args) => {
-        return database.softwares.filter((software) => {
-            return software.id == args.id
-        }).map((software) => {
-            Object.assign(software, args)
-            return software 
-        })[0]
-    },
 
     getSupplies: (args) => dataFiltered('supplies', args),
-    postSupply: (args) => {
-        database.supplies.push(args)
-        return args
-    },
-    editSupply: (args) => {
-        return database.supplies.filter((supply) => {
-            return supply.id == args.id
-        }).map((supply) => {
-            Object.assign(supply, args)
-            return supply
-        })[0]
-    },
-
-    deleteItem: deleteItem
-
 }
 
 module.exports = dbWorks

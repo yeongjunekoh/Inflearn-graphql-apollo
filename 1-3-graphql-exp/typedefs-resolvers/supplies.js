@@ -12,11 +12,6 @@ const resolvers = {
         supplies: (parent, args) => dbWorks.getSupplies(args),
         supply: (parent, args) => dbWorks.getSupplies(args)[0]
     },
-    Mutation: {
-        postSupply: (parent, args) => dbWorks.postSupply(args),
-        editSupply: (parent, args) => dbWorks.editSupply(args),
-        deleteSupply: (parent, args) => dbWorks.deleteItem('supplies', args)
-    }
 }
 
 module.exports = {

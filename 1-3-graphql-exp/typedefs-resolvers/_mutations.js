@@ -16,25 +16,7 @@ const typeDefs = gql`
         ): People!
         deletePerson(id: ID!): People!
 
-        postRole(
-            id: ID!,
-            job: String!,
-            requirement: String
-        ): Role!
-        editRole(
-            id: ID!,
-            job: String!,
-            requirement: String
-        ): Role!
-        deleteRole(id: ID!): Role!
-
         postEquipment(
-            id: ID!,
-            used_by: Role!,
-            count: Int,
-            new_or_used: NewOrUsed!
-        ): Equipment!
-        editEquipment(
             id: ID!,
             used_by: Role!,
             count: Int,
@@ -44,25 +26,6 @@ const typeDefs = gql`
             id: ID!,
             increase: Int!
         ): Equipment!
-        deleteEquipment(id: ID!): Equipment!
-
-        postSoftware(
-            id: ID!,
-            used_by: Role!,
-            developed_by: String!,
-            description: String
-        ): Software!
-        editSoftware(
-            id: ID!,
-            used_by: Role!,
-            developed_by: String!,
-            description: String
-        ): Software!
-        deleteSoftware(id: ID!): Software!
-
-        postSupply(id: ID!, team: ID!): Supply!,
-        editSupply(id: ID!, team: ID!): Supply!
-        deleteSupply(id: ID!): Supply!
     }
 `
 

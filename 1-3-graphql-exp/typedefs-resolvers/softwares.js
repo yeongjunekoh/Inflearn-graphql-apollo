@@ -14,11 +14,6 @@ const resolvers = {
         softwares: (parent, args) => dbWorks.getSoftwares(args),
         software: (parent, args) => dbWorks.getSoftwares(args)[0]
     },
-    Mutation: {
-        postSoftware: (parent, args) => dbWorks.postSoftware(args),
-        editSoftware: (parent, args) => dbWorks.editSoftware(args),
-        deleteSoftware: (parent, args) => dbWorks.deleteItem('softwares', args)
-    }
 }
 
 module.exports = {

@@ -15,6 +15,8 @@ const typeDefs = gql`
             from: String
             ): [People]
         person(id: ID!): People
+        roles: [RoleInfo]
+        role(id: ID!): RoleInfo
         equipments(
             used_by: Role, 
             new_or_used: NewOrUsed

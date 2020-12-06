@@ -2,10 +2,13 @@ const { gql } = require('apollo-server')
 const dbWorks = require('../dbWorks.js')
 
 const typeDefs = gql`
-    type Role {
+    type RoleInfo {
         id: ID!
         job: String!
         requirement: String
+        members: [People]
+        equipments: [Equipment]
+        softwares: [Software]
     }
 `
 const resolvers = {
@@ -13,11 +16,6 @@ const resolvers = {
         roles: (parent, args) => dbWorks.getRoles(args),
         role: (parent, args) => dbWorks.getRoles(args)[0]
     },
-    Mutation: {
-        postRole: (parent, args) => dbWorks.postRole(args),
-        editRole: (parent, args) => dbWorks.editRole(args),
-        deleteRole: (parent, args) => dbWorks.deleteItem('roles', args)
-    }
 }
 
 module.exports = {
