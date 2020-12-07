@@ -101,3 +101,34 @@
 .component aside .peopleName {
     cursor: pointer;
 }
+
+.component aside .roleItem {
+    text-transform: capitalize;
+    cursor: pointer;
+}
+.component aside .roleItem span {
+    display: inline-block;
+    width: 32px;
+}
+
+.component .contents .roleWrapper {
+    display: inline-block;
+    margin: 8px;
+    padding: 16px 24px;
+    border-radius: 8px;
+    background-color: white;
+    border: 2px solid #ddd
+}
+.component .contents .roleWrapper h2 {
+    font-size: 1.4em;
+    margin-bottom: 6px;
+    text-transform: capitalize;
+}
+.component .contents .roleWrapper .requirement {
+    margin-bottom: 12px;
+    color: gray;
+}
+.component .contents .roleWrapper .requirement span {
+    color: dodgerblue;
+    text-transform: capitalize;
+}
