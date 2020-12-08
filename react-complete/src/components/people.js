@@ -26,6 +26,16 @@ const GET_PERSON = gql`
       role
       team
       from
+      tools {
+        __typename
+        ... on Software {
+          id
+        }
+        ... on Equipment {
+          id
+          count
+        }
+      }
     }
   }
 `;
@@ -40,7 +50,7 @@ const DELETE_PERSON = gql`
 const POST_PERSON = gql`
   mutation PostPerson($input: PostPersonInput!) {
     postPerson(input: $input) {
-      id,
+      id
       first_name
       last_name
       sex
@@ -56,20 +66,29 @@ const POST_PERSON = gql`
 const EDIT_PERSON = gql`
   mutation EditTeam($id: ID!, $input: PostPersonInput!) {
     editPerson(id: $id, input: $input) {
-      id,
-      first_name,
-      last_name,
-      sex,
-      blood_type,
-      serve_years,
-      role,
-      team,
+      id
+      first_name
+      last_name
+      sex
+      blood_type
+      serve_years
+      role
+      team
       from
     }
   }
 `
 
+const INCREASE_EQUIPMENT = gql`
+  mutation IncreaseEquipment($id: ID!) {
+    increaseEquipment(id: $id) {
+      count
+    }
+  }
+`
+
 let refetchPeople = () => {}
+let refetchPerson = () => {}
 
 function People() {
   const [contentId, setContentId] = useState(0)
@@ -93,6 +112,9 @@ function People() {
     EDIT_PERSON, { onCompleted: editPersonCompleted }) 
   const [deletePerson] = useMutation(
     DELETE_PERSON, { onCompleted: deletePersonCompleted }) 
+  const [increaseEquipment] = useMutation(
+    INCREASE_EQUIPMENT, { onCompleted: refetchPerson }
+  )
 
   function execPostPerson () {
     postPerson({
@@ -102,6 +124,7 @@ function People() {
         }}})
   }
   function postPersonCompleted (data) {
+    console.log(data.postPerson)
     alert(`${data.postPerson.id} 항목이 생성되었습니다.`)
     refetchPeople()
     setContentId(0)
@@ -116,6 +139,7 @@ function People() {
         }}})
   }
   function editPersonCompleted (data) {
+    console.log(data.editPerson)
     alert(`${data.editPerson.id} 항목이 수정되었습니다.`)
     refetchPeople()
   }
@@ -126,6 +150,7 @@ function People() {
     }
   }
   function deletePersonCompleted (data) {
+    console.log(data.deletePerson)
     alert(`${data.deletePerson.id} 항목이 삭제되었습니다.`)
     refetchPeople()
     setContentId(0)
@@ -165,7 +190,7 @@ function People() {
 
   function MainContents () {
 
-    const { loading, error } = useQuery(GET_PERSON, {
+    const { loading, error, data, refetch } = useQuery(GET_PERSON, {
       variables: {id: contentId},
       onCompleted: (data) => {
         if (contentId === 0) {
@@ -189,6 +214,8 @@ function People() {
         }
       }
     });
+
+    refetchPerson = refetch
 
     if (loading) return <p className="loading">Loading...</p>
     if (error) return <p className="error">Error :(</p>
@@ -287,6 +314,26 @@ function People() {
             </tr>
           </tbody>
         </table>
+        {contentId > 0 && (
+          <ul>
+            {data.person.tools.map((tool) => {
+              return (
+                <li>
+                  {tool.id}
+                  {tool.__typename === 'Equipment' && (
+                    <span>
+                      <span className="count">{tool.count}</span>
+                      <span className="increase" 
+                      onClick={() => increaseEquipment({variables: {id: tool.id}})}>
+                        🔺
+                      </span>
+                    </span>
+                  )}
+                </li>
+              )
+            })}
+          </ul>
+        )}
         {contentId === 0 ? 
           (<div className="buttons">
             <button onClick={() => {execPostPerson()}}>Submit</button>

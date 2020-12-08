@@ -24,7 +24,6 @@ const typeDefs = gql`
         ): Equipment!
         increaseEquipment(
             id: ID!,
-            increase: Int!
         ): Equipment!
     }
 `

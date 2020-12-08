@@ -28,7 +28,7 @@ const typeDefs = gql`
             ): [Software]
         software(id: ID!): Software
         supplies(team: ID): [Supply]
-        supply(id: ID!): Supply
+        supply(id: ID!): Supply,
     }
 `
 

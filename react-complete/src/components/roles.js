@@ -16,7 +16,6 @@ const GET_ROLE = gql`
       id
       requirement
       members {
-        first_name
         last_name
         serve_years
       }
@@ -75,6 +74,25 @@ function Roles() {
       <div className="roleWrapper">
         <h2>{data.role.id}</h2>
         <div className="requirement"><span>{data.role.requirement}</span> required</div>
+        <h3>Members</h3>
+        <ul>
+          {data.role.members.map((member) => {
+            return (<li>{member.last_name}</li>)
+          })}
+        </ul>
+        <h3>Equipments</h3>
+        <ul>
+          {data.role.equipments.map((equipment) => {
+            return (<li>{equipment.id}</li>)
+          })}
+        </ul>
+        <h3>Softwares</h3>
+          {data.role.softwares.map((software) => {
+            return (<li>{software.id}</li>)
+          })}
+        <ul>
+
+        </ul>
       </div>
     );
   }

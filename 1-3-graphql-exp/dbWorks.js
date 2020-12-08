@@ -109,7 +109,7 @@ const dbWorks = {
         return database.equipments.filter((equipment) => {
             return equipment.id == args.id
         }).map((equipment) => {
-            equipment.count += args.increase 
+            equipment.count += 1 
             return equipment
         })[0]
 

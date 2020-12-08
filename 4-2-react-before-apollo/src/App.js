@@ -1,29 +1,23 @@
 import './App.css';
 import React, { useState } from 'react';
 
+import Roles from './components/roles'
 import Teams from './components/teams'
 import People from './components/people'
-import Roles from './components/roles'
-import Equipments from './components/equipments'
-import Softwares from './components/softwares'
-import Supplies from './components/supplies'
 
 function App() {
 
   const [menu, setMenu] = useState('Teams')
 
   let mainComp = {
+    Roles: (<Roles />),
     Teams: (<Teams />),
     People: (<People />),
-    Roles: (<Roles />),
-    Equipments: (<Equipments />),
-    Softwares: (<Softwares />),
-    Supplies: (<Supplies />),
   }
 
   function NavMenus() {
     return [
-      'Teams', 'People', 'Roles', 'Equipments', 'Softwares', 'Supplies'
+      'Roles', 'Teams', 'People'
     ].map((_menu, key) => {
       return (
         <li key={key} className={menu === _menu ? 'on' : ''}

@@ -95,6 +95,7 @@ function Teams() {
         }}})
   }
   function postTeamCompleted (data) {
+    console.log(data.postTeam)
     alert(`${data.postTeam.id} 항목이 생성되었습니다.`)
     refetchTeams()
     setContentId(0)
@@ -109,6 +110,7 @@ function Teams() {
         }}})
   }
   function editTeamCompleted (data) {
+    console.log(data.editTeam)
     alert(`${data.editTeam.id} 항목이 수정되었습니다.`)
     refetchTeams()
   }
@@ -119,6 +121,7 @@ function Teams() {
     }
   }
   function deleteTeamCompleted (data) {
+    console.log(data.deleteTeam)
     alert(`${data.deleteTeam.id} 항목이 삭제되었습니다.`)
     refetchTeams()
     setContentId(0)

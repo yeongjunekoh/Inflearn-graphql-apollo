@@ -44,6 +44,33 @@
     height: 24px;
     line-height: 24px;
 }
+
+.component .contents .inputContainer ul {
+    width: 300px;
+    margin-top: 12px;
+}
+
+.component .contents .inputContainer ul li {
+    display: inline-block;
+    margin: 0 6px 6px 0;
+    padding: 6px 8px;
+    background-color: #eee;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    text-transform: capitalize;
+}
+.component .contents .inputContainer ul li .count {
+    display: inline-block;
+    color: white;
+    background-color: dodgerblue;
+    font-weight: bold;
+    padding: 2px 4px;
+    border-radius: 4px;
+    margin: 0 6px;
+}
+.component .contents .inputContainer ul li .increase {
+    cursor: pointer;
+}
 .component .contents .inputContainer .buttons {
     margin-top: 24px;
     text-align: center;
@@ -120,15 +147,28 @@
     border: 2px solid #ddd
 }
 .component .contents .roleWrapper h2 {
-    font-size: 1.4em;
+    font-size: 1.8em;
     margin-bottom: 6px;
     text-transform: capitalize;
 }
 .component .contents .roleWrapper .requirement {
-    margin-bottom: 12px;
+    margin-bottom: 24px;
     color: gray;
 }
 .component .contents .roleWrapper .requirement span {
     color: dodgerblue;
     text-transform: capitalize;
+}
+.component .contents .roleWrapper h3 {
+    color: #555;
+    font-size: 1.2em;
+    margin: 16px 0 8px 0;
+}
+.component .contents .roleWrapper li {
+    display: inline-block;
+    margin: 0 6px 6px 0;
+    padding: 6px;
+    background-color: #eee;
+    border: 1px solid #eee;
+    border-radius: 4px;
 }
