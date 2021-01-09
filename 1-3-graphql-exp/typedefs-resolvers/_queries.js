@@ -9,7 +9,7 @@ const typeDefs = gql`
         team(id: ID!): Team
         people(
             page: Int, per_page: Int, 
-            team: ID, 
+            team: Int, 
             sex: Sex, 
             blood_type: BloodType, 
             from: String
