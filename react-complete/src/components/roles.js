@@ -1,6 +1,6 @@
 import './components.css';
 import { useState } from 'react';
-import { useQuery, useMutation, gql } from '@apollo/client';
+import { useQuery, gql } from '@apollo/client';
 
 const GET_ROLES = gql`
   query GetRoles {
@@ -30,7 +30,7 @@ const GET_ROLE = gql`
 `;
 
 function Roles() {
-  const [contentId, setContentId] = useState('')
+  const [contentId, setContentId] = useState('');
 
   function AsideItems () {
       
