@@ -87,8 +87,8 @@ const INCREASE_EQUIPMENT = gql`
   }
 `
 
-let refetchPeople = () => {}
-let refetchPerson = () => {}
+let refetchPeople
+let refetchPerson
 
 function People() {
   const [contentId, setContentId] = useState(0)
@@ -97,14 +97,16 @@ function People() {
   const bloodTypes = ['A', 'B', 'AB', 'O']
   const roles = ['developer', 'designer', 'planner']
 
-  const [first_name, setFirstName] = useState('')
-  const [last_name, setLastName] = useState('')
-  const [sex, setSex] = useState('')
-  const [blood_type, setBloodType] = useState(bloodTypes[0])
-  const [serve_years, setServeYears] = useState(0)
-  const [role, setRole] = useState(roles[0])
-  const [team, setTeam] = useState(0)
-  const [from, setFrom] = useState('')
+  const [inputs, setInputs] = useState({
+    first_name: '',
+    last_name: '',
+    sex: sexes[0],
+    blood_type: bloodTypes[0],
+    serve_years: 0,
+    role: roles[0],
+    team: 0,
+    from: ''
+  })
 
   const [postPerson] = useMutation(
     POST_PERSON, { onCompleted: postPersonCompleted })
@@ -118,10 +120,7 @@ function People() {
 
   function execPostPerson () {
     postPerson({
-      variables: {
-        input: {
-          first_name, last_name, sex, blood_type, serve_years, role, team, from
-        }}})
+      variables: { input: inputs }})
   }
   function postPersonCompleted (data) {
     console.log(data.postPerson)
@@ -134,9 +133,8 @@ function People() {
     editPerson({
       variables: {
         id: contentId,
-        input: {
-          first_name, last_name, sex, blood_type, serve_years, role, team, from
-        }}})
+        input: inputs }
+      })
   }
   function editPersonCompleted (data) {
     console.log(data.editPerson)
@@ -194,23 +192,27 @@ function People() {
       variables: {id: contentId},
       onCompleted: (data) => {
         if (contentId === 0) {
-          setFirstName('')
-          setLastName('')
-          setSex('')
-          setBloodType(bloodTypes[0])
-          setServeYears(0)
-          setRole(roles[0])
-          setTeam(0)
-          setFrom('')
+          setInputs({
+            first_name: '',
+            last_name: '',
+            sex: sexes[0],
+            blood_type: bloodTypes[0],
+            serve_years: 0,
+            role: roles[0],
+            team: 0,
+            from: ''
+          })
         } else {
-          setFirstName(data.person.first_name)
-          setLastName(data.person.last_name)
-          setSex(data.person.sex)
-          setBloodType(data.person.blood_type)
-          setServeYears(data.person.serve_years)
-          setRole(data.person.role)
-          setTeam(data.person.team)
-          setFrom(data.person.from)
+          setInputs({
+            first_name: data.person.first_name,
+            last_name: data.person.last_name,
+            sex: data.person.sex,
+            blood_type: data.person.blood_type,
+            serve_years: data.person.serve_years,
+            role: data.person.role,
+            team: data.person.team,
+            from: data.person.from
+          })
         }
       }
     });
@@ -220,20 +222,12 @@ function People() {
     if (loading) return <p className="loading">Loading...</p>
     if (error) return <p className="error">Error :(</p>
 
-    function handleChange(e, key) {
-      const setters = {
-          first_name: setFirstName,
-          last_name: setLastName,
-          sex: setSex,
-          blood_type: setBloodType,
-          serve_years: setServeYears,
-          role: setRole,
-          team: setTeam,
-          from: setFrom
-      }
-      const numberType = ['serve_years']
-      const value = numberType.includes(key) ? Number(e.target.value) : e.target.value
-      setters[key](value)
+    function handleChange(e) {
+      const { name, value } = e.target
+      setInputs({
+        ...inputs,
+        [name]: ['serve_years', 'team'].includes(name) ? Number(value) : value
+      })
     }
 
     return (
@@ -248,69 +242,50 @@ function People() {
             )}
             <tr>
               <td>First Name</td>
-              <td>
-                <input type="text" value={first_name} onChange={(e) => {handleChange(e, 'first_name')}}/>
-              </td>
+              <td><input type="text" name="first_name" value={inputs.first_name} onChange={handleChange}/></td>
             </tr>
             <tr>
               <td>Last Name</td>
-              <td>
-                <input type="text" value={last_name} onChange={(e) => {handleChange(e, 'last_name')}}/>
-              </td>
+              <td><input type="text" name="last_name" value={inputs.last_name} onChange={handleChange}/></td>
             </tr>
             <tr>
               <td>Sex</td>
               <td>
-                <select value={sex} onChange={(e) => {handleChange(e, 'sex')}}>
+                <select name="sex" value={inputs.sex} onChange={(e) => {handleChange(e)}}>
                   {sexes.map((sex) => {
-                    return (
-                      <option key={sex} value={sex}>{sex}</option>                    
-                    )
-                  })}
+                    return (<option key={sex} value={sex}>{sex}</option>)})}
                 </select>
               </td>
             </tr>
             <tr>
               <td>Blood Type</td>
               <td>
-                <select value={blood_type} onChange={(e) => {handleChange(e, 'blood_type')}}>
+                <select name="blood_type" value={inputs.blood_type} onChange={(e) => {handleChange(e)}}>
                   {bloodTypes.map((bloodType) => {
-                    return (
-                      <option key={bloodType} value={bloodType}>{bloodType}</option>                    
-                    )
-                  })}
+                    return (<option key={bloodType} value={bloodType}>{bloodType}</option>)})}
                 </select>
               </td>
             </tr>
             <tr>
               <td>Serve Years</td>
-              <td>
-                  <input type="number" value={serve_years} onChange={(e) => {handleChange(e, 'serve_years')}}/>
-              </td>
+              <td><input type="number" name="serve_years" value={inputs.serve_years} onChange={handleChange}/></td>
             </tr>
             <tr>
               <td>Role</td>
               <td>
-                <select value={role} onChange={(e) => {handleChange(e, 'role')}}>
+                <select name="role" value={inputs.role} onChange={(e) => {handleChange(e)}}>
                   {roles.map((role) => {
-                    return (
-                      <option key={role} value={role}>{role}</option>                    
-                    )
-                  })}
+                    return (<option key={role} value={role}>{role}</option>)})}
                 </select>
               </td>
             </tr>
             <tr>
               <td>Team</td>
-              <td>
-                  <input type="number" value={team} onChange={(e) => {handleChange(e, 'team')}}/>
-              </td>
+              <td><input type="number" name="team" value={inputs.team} onChange={handleChange}/></td>
             </tr>
             <tr>
               <td>From</td>
-              <td>
-                  <input type="text" value={from} onChange={(e) => {handleChange(e, 'from')}}/>
-              </td>
+              <td><input type="text" name="from" value={inputs.from} onChange={handleChange}/></td>
             </tr>
           </tbody>
         </table>
@@ -318,7 +293,7 @@ function People() {
           <ul>
             {data.person.tools.map((tool) => {
               return (
-                <li>
+                <li key={tool.id}>
                   {tool.id}
                   {tool.__typename === 'Equipment' && (
                     <span>

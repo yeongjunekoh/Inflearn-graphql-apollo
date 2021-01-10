@@ -67,18 +67,20 @@ const EDIT_TEAM = gql`
   }
 `
 
-let refetchTeams = () => {}
+let refetchTeams
 
 function Teams() {
 
   const [contentId, setContentId] = useState(0)
 
-  const [manager, setManager] = useState('')
-  const [office, setOffice] = useState('')
-  const [extension_number, setExtensionNumber] = useState('')
-  const [mascot, setMascot] = useState('')
-  const [cleaning_duty, setCleaningDuty] = useState('')
-  const [project, setProject] = useState('')
+  const [inputs, setInputs] = useState({
+    manager: '',
+    office: '',
+    extension_number: '',
+    mascot: '',
+    cleaning_duty: '',
+    project: ''
+  })
 
   const [postTeam] = useMutation(
     POST_TEAM, { onCompleted: postTeamCompleted }) 
@@ -89,10 +91,7 @@ function Teams() {
 
   function execPostTeam () {
     postTeam({
-      variables: {
-        input: {
-          manager, office, extension_number, mascot, cleaning_duty, project
-        }}})
+      variables: { input: inputs }})
   }
   function postTeamCompleted (data) {
     console.log(data.postTeam)
@@ -103,11 +102,10 @@ function Teams() {
 
   function execEditTeam () {
     editTeam({
-      variables: {
+      variables: {  
         id: contentId,
-        input: {
-          manager, office, extension_number, mascot, cleaning_duty, project
-        }}})
+        input: inputs }
+      })
   }
   function editTeamCompleted (data) {
     console.log(data.editTeam)
@@ -172,19 +170,23 @@ function Teams() {
       variables: {id: contentId},
       onCompleted: (data) => {
         if (contentId === 0) {
-          setManager('')
-          setOffice('')
-          setExtensionNumber('')
-          setMascot('')
-          setCleaningDuty('')
-          setProject('')
+          setInputs({
+            manager: '',
+            office: '',
+            extension_number: '',
+            mascot: '',
+            cleaning_duty: '',
+            project: ''
+          })
         } else {
-          setManager(data.team.manager)
-          setOffice(data.team.office)
-          setExtensionNumber(data.team.extension_number)
-          setMascot(data.team.mascot)
-          setCleaningDuty(data.team.cleaning_duty)
-          setProject(data.team.project)
+          setInputs({
+            manager: data.team.manager,
+            office: data.team.office,
+            extension_number: data.team.extension_number,
+            mascot: data.team.mascot,
+            cleaning_duty: data.team.cleaning_duty,
+            project: data.team.project
+          })
         }
       }
     });
@@ -192,16 +194,12 @@ function Teams() {
     if (loading) return <p className="loading">Loading...</p>
     if (error) return <p className="error">Error :(</p>
 
-    function handleChange(e, key) {
-      const setters = {
-        manager: setManager,
-        office: setOffice,
-        extension_number: setExtensionNumber,
-        mascot: setMascot,
-        cleaning_duty: setCleaningDuty,
-        project: setProject
-      }
-      setters[key](e.target.value)
+    function handleChange(e) {
+      const { name, value } = e.target
+      setInputs({
+        ...inputs,
+        [name]: value
+      })
     }
 
     return (
@@ -216,50 +214,38 @@ function Teams() {
             )}
             <tr>
               <td>Manager</td>
-              <td>
-                <input type="text" value={manager} onChange={(e) => {handleChange(e, 'manager')}}/>
-              </td>
+              <td><input type="text" name="manager" value={inputs.manager} onChange={handleChange}/></td>
             </tr>
             <tr>
               <td>Office</td>
-              <td>
-                <input type="text" value={office} onChange={(e) => {handleChange(e, 'office')}}/>
-              </td>
+              <td><input type="text" name="office" value={inputs.office} onChange={handleChange}/></td>
             </tr>
             <tr>
               <td>Extension Number</td>
-              <td>
-                <input type="text" value={extension_number} onChange={(e) => {handleChange(e, 'extension_number')}}/>
-              </td>
+              <td><input type="text" name="extension_number" value={inputs.extension_number} onChange={handleChange}/></td>
             </tr>
             <tr>
               <td>Mascot</td>
-              <td>
-                <input type="text" value={mascot} onChange={(e) => {handleChange(e, 'mascot')}}/>
-              </td>
+              <td><input type="text" name="mascot" value={inputs.mascot} onChange={handleChange}/></td>
             </tr>
             <tr>
               <td>Cleaning Duty</td>
-              <td>
-                <input type="text" value={cleaning_duty} onChange={(e) => {handleChange(e, 'cleaning_duty')}}/>
-              </td>
+              <td><input type="text" name="cleaning_duty" value={inputs.cleaning_duty} onChange={handleChange}/></td>
             </tr>
             <tr>
               <td>Project</td>
-              <td>
-                <input type="text" value={project} onChange={(e) => {handleChange(e, 'project')}}/>
-              </td>
+              <td><input type="text" name="project" value={inputs.project} onChange={handleChange}/></td>
             </tr>
           </tbody>
         </table>
         {contentId === 0 ? 
           (<div className="buttons">
-            <button onClick={() => {execPostTeam()}}>Submit</button>
+            <button onClick={execPostTeam}>Submit</button>
           </div>
           ) : (
           <div className="buttons">
-            <button onClick={() => {execEditTeam()}}>Modify</button>
-            <button onClick={() => {execDeleteTeam()}}>Delete</button>
+            <button onClick={execEditTeam}>Modify</button>
+            <button onClick={execDeleteTeam}>Delete</button>
             <button onClick={() => {setContentId(0)}}>New</button>
           </div>
           )}
