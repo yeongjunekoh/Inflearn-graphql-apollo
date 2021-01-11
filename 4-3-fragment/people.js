@@ -15,7 +15,7 @@ const GET_PEOPLE = gql`
 `;
 
 const GET_PERSON = gql`
-  query GetPeople($id: ID!) {
+  query GetPerson($id: ID!) {
     person(id: $id) {
       id
       first_name
@@ -108,20 +108,12 @@ function People() {
     from: ''
   })
 
-  const [postPerson] = useMutation(
-    POST_PERSON, { onCompleted: postPersonCompleted })
-  const [editPerson] = useMutation(
-    EDIT_PERSON, { onCompleted: editPersonCompleted }) 
-  const [deletePerson] = useMutation(
-    DELETE_PERSON, { onCompleted: deletePersonCompleted }) 
-  const [increaseEquipment] = useMutation(
-    INCREASE_EQUIPMENT, { onCompleted: refetchPerson }
-  )
-
   function execPostPerson () {
     postPerson({
       variables: { input: inputs }})
   }
+  const [postPerson] = useMutation(
+    POST_PERSON, { onCompleted: postPersonCompleted })
   function postPersonCompleted (data) {
     console.log(data.postPerson)
     alert(`${data.postPerson.id} 항목이 생성되었습니다.`)
@@ -136,6 +128,8 @@ function People() {
         input: inputs }
       })
   }
+  const [editPerson] = useMutation(
+    EDIT_PERSON, { onCompleted: editPersonCompleted }) 
   function editPersonCompleted (data) {
     console.log(data.editPerson)
     alert(`${data.editPerson.id} 항목이 수정되었습니다.`)
@@ -147,12 +141,18 @@ function People() {
       deletePerson({variables: {id: contentId}})
     }
   }
+  const [deletePerson] = useMutation(
+    DELETE_PERSON, { onCompleted: deletePersonCompleted }) 
   function deletePersonCompleted (data) {
     console.log(data.deletePerson)
     alert(`${data.deletePerson.id} 항목이 삭제되었습니다.`)
     refetchPeople()
     setContentId(0)
   }
+
+  const [increaseEquipment] = useMutation(
+    INCREASE_EQUIPMENT, { onCompleted: refetchPerson }
+  )
 
   function AsideItems () {
     const { loading, error, data, refetch } = useQuery(GET_PEOPLE);
