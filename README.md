@@ -11,7 +11,9 @@
 - How to make server(query, mutation)
 - How to use server in client(query, mutation)
 - How to make function using server in client(query, mutation)
+- We can learn concept, How to use graphQL, Apollo basic
 
 ## Notice
-I finish the lecture.
-But I reset changes because of wrong git init.
+- I finish the lecture. But I reset changes because of wrong git init.
+- This code is just teacher's code 😂
+
